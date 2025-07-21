@@ -382,6 +382,16 @@ class Model(ABC):
         """Make a request to the model."""
         raise NotImplementedError()
 
+    @abstractmethod
+    async def count_tokens(
+        self,
+        messages: list[ModelMessage],
+        model_settings: ModelSettings | None,
+        model_request_parameters: ModelRequestParameters,
+    ) -> ModelResponse:
+        """Make a request to the model."""
+        raise NotImplementedError()
+
     @asynccontextmanager
     async def request_stream(
         self,

@@ -63,6 +63,7 @@ try:
         ToolConfigDict,
         ToolDict,
         ToolListUnionDict,
+        CountTokensResponse,
     )
 
     from ..providers.google import GoogleProvider
@@ -179,6 +180,18 @@ class GoogleModel(Model):
         check_allow_model_requests()
         model_settings = cast(GoogleModelSettings, model_settings or {})
         response = await self._generate_content(messages, False, model_settings, model_request_parameters)
+        return self._process_response(response)
+
+    async def count_tokens(
+        self,
+        messages: list[ModelMessage],
+    ) -> CountTokensResponse:
+        check_allow_model_requests()
+        _, contents = await self._map_messages(messages)
+        response = await self.client.count_tokens(
+            model=self._model_name,
+            contents=contents,
+        )
         return self._process_response(response)
 
     @asynccontextmanager
