@@ -24,7 +24,15 @@ from .. import _utils
 from .._output import OutputObjectDefinition
 from .._parts_manager import ModelResponsePartsManager
 from ..exceptions import UserError
-from ..messages import FileUrl, ModelMessage, ModelRequest, ModelResponse, ModelResponseStreamEvent, VideoUrl
+from ..messages import (
+    BaseCountTokensResponse,
+    FileUrl,
+    ModelMessage,
+    ModelRequest,
+    ModelResponse,
+    ModelResponseStreamEvent,
+    VideoUrl,
+)
 from ..output import OutputMode
 from ..profiles._json_schema import JsonSchemaTransformer
 from ..settings import ModelSettings
@@ -386,9 +394,7 @@ class Model(ABC):
     async def count_tokens(
         self,
         messages: list[ModelMessage],
-        model_settings: ModelSettings | None,
-        model_request_parameters: ModelRequestParameters,
-    ) -> ModelResponse:
+    ) -> BaseCountTokensResponse:
         """Make a request to the model."""
         raise NotImplementedError()
 
